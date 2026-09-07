@@ -1,28 +1,22 @@
 import { NavLink } from "react-router-dom";
+import { FaHome, FaCheckCircle, FaInfoCircle } from "react-icons/fa";
 
 function Navigation() {
   return (
-    <nav className="navbar">
-      <NavLink to="/" className="brand">
-        <span className="material-symbols-outlined">movie</span>
-        StreamList
-      </NavLink>
+    <nav className="navigation">
+      <h1>StreamList</h1>
 
       <div className="nav-links">
-        <NavLink to="/" end>
-          StreamList
+        <NavLink to="/">
+          <FaHome /> My List
         </NavLink>
 
-        <NavLink to="/movies">
-          Movies
-        </NavLink>
-
-        <NavLink to="/cart">
-          Cart
+        <NavLink to="/completed">
+          <FaCheckCircle /> Completed
         </NavLink>
 
         <NavLink to="/about">
-          About
+          <FaInfoCircle /> About
         </NavLink>
       </div>
     </nav>
