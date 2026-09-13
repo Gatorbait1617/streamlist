@@ -1,15 +1,13 @@
 function About() {
   return (
-    <section className="about-page">
-      <h2>About StreamList</h2>
+    <section>
+      <h1>About StreamList</h1>
       <p>
-        StreamList is a personal movie-tracking application designed to help
-        users organize movies they want to watch across multiple streaming
-        platforms.
+        StreamList is a React application that helps users organize movies and
+        television shows they would like to watch.
       </p>
       <p>
-        Users can add a movie, edit its information, remove it from the list,
-        and mark it as completed after viewing it.
+        The Discover page uses data provided by The Movie Database (TMDB) API.
       </p>
     </section>
   );

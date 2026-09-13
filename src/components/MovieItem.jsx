@@ -1,55 +1,76 @@
+import { useState } from "react";
 import {
   FaCheck,
-  FaUndo,
-  FaEdit,
+  FaPen,
   FaTrash,
-} from "react-icons/fa";
+  FaFloppyDisk,
+  FaXmark,
+} from "react-icons/fa6";
 
 function MovieItem({
   movie,
-  deleteMovie,
-  toggleCompleted,
-  setEditingMovie,
+  onDeleteMovie,
+  onToggleCompleted,
+  onEditMovie,
 }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedTitle, setUpdatedTitle] = useState(movie.title);
+
+  function saveEdit() {
+    if (updatedTitle.trim() !== "") {
+      onEditMovie(movie.id, updatedTitle.trim());
+      setIsEditing(false);
+    }
+  }
+
+  function cancelEdit() {
+    setUpdatedTitle(movie.title);
+    setIsEditing(false);
+  }
+
   return (
-    <li className={`movie-item ${movie.completed ? "completed" : ""}`}>
-      <div>
-        <h3>{movie.title}</h3>
-        <p>
-          <strong>Genre:</strong> {movie.genre}
-        </p>
-        <p>
-          <strong>Platform:</strong> {movie.platform}
-        </p>
-        <p className="status">
-          Status: {movie.completed ? "Completed" : "Not Watched"}
-        </p>
-      </div>
+    <article className={`movie-item ${movie.completed ? "completed" : ""}`}>
+      {isEditing ? (
+        <input
+          type="text"
+          value={updatedTitle}
+          onChange={(event) => setUpdatedTitle(event.target.value)}
+        />
+      ) : (
+        <p>{movie.title}</p>
+      )}
 
       <div className="movie-actions">
-        <button
-          className="complete-button"
-          onClick={() => toggleCompleted(movie.id)}
-        >
-          {movie.completed ? <FaUndo /> : <FaCheck />}
-          {movie.completed ? " Undo" : " Complete"}
-        </button>
+        {isEditing ? (
+          <>
+            <button onClick={saveEdit} className="save-button">
+              <FaFloppyDisk /> Save
+            </button>
 
-        <button
-          className="edit-button"
-          onClick={() => setEditingMovie(movie)}
-        >
-          <FaEdit /> Edit
-        </button>
+            <button onClick={cancelEdit} className="cancel-button">
+              <FaXmark /> Cancel
+            </button>
+          </>
+        ) : (
+          <>
+            <button onClick={() => onToggleCompleted(movie.id)}>
+              <FaCheck /> {movie.completed ? "Watched" : "Complete"}
+            </button>
 
-        <button
-          className="delete-button"
-          onClick={() => deleteMovie(movie.id)}
-        >
-          <FaTrash /> Delete
-        </button>
+            <button onClick={() => setIsEditing(true)}>
+              <FaPen /> Edit
+            </button>
+
+            <button
+              onClick={() => onDeleteMovie(movie.id)}
+              className="delete-button"
+            >
+              <FaTrash /> Delete
+            </button>
+          </>
+        )}
       </div>
-    </li>
+    </article>
   );
 }
 

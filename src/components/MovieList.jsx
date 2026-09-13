@@ -1,32 +1,23 @@
 import MovieItem from "./MovieItem";
 
-function MovieList({
-  movies,
-  deleteMovie,
-  toggleCompleted,
-  setEditingMovie,
-}) {
-  return (
-    <section className="list-section">
-      <h2>My Streaming List</h2>
+function MovieList({ movies, onDeleteMovie, onToggleCompleted, onEditMovie }) {
+  if (movies.length === 0) {
+    return <p className="empty-message">Your StreamList is currently empty.</p>;
+  }
 
-      {movies.length === 0 ? (
-        <p className="empty-message">
-          Your list is empty. Add a movie to get started.
-        </p>
-      ) : (
-        <ul className="movie-list">
-          {movies.map((movie) => (
-            <MovieItem
-              key={movie.id}
-              movie={movie}
-              deleteMovie={deleteMovie}
-              toggleCompleted={toggleCompleted}
-              setEditingMovie={setEditingMovie}
-            />
-          ))}
-        </ul>
-      )}
+  return (
+    <section className="movie-list">
+      <h2>Your Saved Titles</h2>
+
+      {movies.map((movie) => (
+        <MovieItem
+          key={movie.id}
+          movie={movie}
+          onDeleteMovie={onDeleteMovie}
+          onToggleCompleted={onToggleCompleted}
+          onEditMovie={onEditMovie}
+        />
+      ))}
     </section>
   );
 }

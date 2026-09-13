@@ -1,87 +1,38 @@
-import { useEffect, useState } from "react";
-import { FaPlus, FaSave } from "react-icons/fa";
+import { useState } from "react";
+import { FaPlus } from "react-icons/fa6";
 
-function MovieForm({ addMovie, editingMovie, saveEditedMovie }) {
+function MovieForm({ onAddMovie }) {
   const [title, setTitle] = useState("");
-  const [genre, setGenre] = useState("");
-  const [platform, setPlatform] = useState("");
 
-  useEffect(() => {
-    if (editingMovie) {
-      setTitle(editingMovie.title);
-      setGenre(editingMovie.genre);
-      setPlatform(editingMovie.platform);
-    }
-  }, [editingMovie]);
-
-  const handleSubmit = (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
 
-    if (!title.trim() || !genre.trim() || !platform.trim()) {
-      alert("Please complete all fields before adding a movie.");
+    if (title.trim() === "") {
       return;
     }
 
-    if (editingMovie) {
-      saveEditedMovie({
-        ...editingMovie,
-        title,
-        genre,
-        platform,
-      });
-    } else {
-      addMovie({ title, genre, platform });
-    }
-
+    onAddMovie(title.trim());
     setTitle("");
-    setGenre("");
-    setPlatform("");
-  };
+  }
 
   return (
-    <section className="form-section">
-      <h2>{editingMovie ? "Edit Movie" : "Add a Movie"}</h2>
+    <form className="movie-form" onSubmit={handleSubmit}>
+      <label htmlFor="movie-title">Movie or show title</label>
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Movie Title</label>
+      <div className="form-row">
         <input
-          id="title"
+          id="movie-title"
           type="text"
-          placeholder="Example: Black Panther"
           value={title}
+          placeholder="Example: The Dark Knight"
           onChange={(event) => setTitle(event.target.value)}
         />
 
-        <label htmlFor="genre">Genre</label>
-        <input
-          id="genre"
-          type="text"
-          placeholder="Example: Action"
-          value={genre}
-          onChange={(event) => setGenre(event.target.value)}
-        />
-
-        <label htmlFor="platform">Streaming Platform</label>
-        <select
-          id="platform"
-          value={platform}
-          onChange={(event) => setPlatform(event.target.value)}
-        >
-          <option value="">Choose a platform</option>
-          <option value="Netflix">Netflix</option>
-          <option value="Hulu">Hulu</option>
-          <option value="Disney+">Disney+</option>
-          <option value="Prime Video">Prime Video</option>
-          <option value="Max">Max</option>
-          <option value="Other">Other</option>
-        </select>
-
         <button type="submit">
-          {editingMovie ? <FaSave /> : <FaPlus />}
-          {editingMovie ? " Save Changes" : " Add to My List"}
+          <FaPlus /> Add to List
         </button>
-      </form>
-    </section>
+      </div>
+    </form>
   );
 }
 
