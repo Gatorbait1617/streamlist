@@ -37,30 +37,27 @@ function Home() {
   }
 
   function editMovie(id, updatedTitle) {
-    setMovies(
-      movies.map((movie) =>
-        movie.id === id
-          ? { ...movie, title: updatedTitle }
-          : movie
-      )
-    );
-  }
-
-  return (
-    <section>
-      <h1>My StreamList</h1>
-      <p>Add movies or shows you would like to watch.</p>
-
-      <MovieForm onAddMovie={addMovie} />
-
-      <MovieList
-        movies={movies}
-        onDeleteMovie={deleteMovie}
-        onToggleCompleted={toggleCompleted}
-        onEditMovie={editMovie}
-      />
-    </section>
+  setMovies(
+    movies.map((movie) =>
+      movie.id === id ? { ...movie, title: updatedTitle } : movie
+    )
   );
+}
+
+return (
+  <main>
+    <h1>StreamList</h1>
+
+    <MovieForm onAddMovie={addMovie} />
+
+    <MovieList
+      movies={movies}
+      onDeleteMovie={deleteMovie}
+      onToggleCompleted={toggleCompleted}
+      onEditMovie={editMovie}
+    />
+  </main>
+);
 }
 
 export default Home;
